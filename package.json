@@ -2,11 +2,8 @@
   "name": "orval-example",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@8.15.6+sha256.01c01eeb990e379b31ef19c03e9d06a14afa5250b82e81303f88721c99ff2e6f",
-  "engines": {
-    "node": ">=20",
-    "npm": "Don't use npm",
-    "yarm": "Don't use yarn"
+  "volta": {
+    "node": "23.4.0"
   },
   "scripts": {
     "dev": "next dev --turbopack",
@@ -39,6 +36,7 @@
     "eslint": "9.17.0",
     "eslint-config-next": "15.1.1",
     "eslint-plugin-storybook": "0.11.1",
+    "orval": "7.3.0",
     "postcss": "8.4.49",
     "storybook": "^8.4.7",
     "tailwindcss": "3.4.17",
