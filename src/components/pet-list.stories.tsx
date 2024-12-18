@@ -1,7 +1,10 @@
-import { getListPetsMockHandler } from "@/__generated__/pets/pets.msw";
+import {
+  getListPetsMockHandler,
+  getListPetsResponseMock,
+} from "@/__generated__/pets/pets.msw";
 import { PetList } from "./pet-list";
 import { Meta, StoryObj } from "@storybook/react";
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 
 const meta = {
   component: PetList,
@@ -11,12 +14,42 @@ export default meta;
 
 type Story = StoryObj<typeof PetList>;
 
-const listPetsMockHandler = getListPetsMockHandler();
+const handlers = {
+  success: [getListPetsMockHandler()],
+  loading: [
+    http.get(getListPetsMockHandler().info.path, async () => {
+      await delay(3000);
+      return new HttpResponse(JSON.stringify(getListPetsResponseMock()), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }),
+  ],
+  empty: [getListPetsMockHandler(() => [])],
+  error: [
+    http.get(getListPetsMockHandler().info.path, async () => {
+      await delay(1000);
+
+      return new HttpResponse(
+        JSON.stringify({ message: "Internal Server Error" }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
+      );
+    }),
+  ],
+};
 
 export const Default = {
   parameters: {
     msw: {
-      handlers: [listPetsMockHandler],
+      handlers: handlers.success,
+    },
+  },
+} satisfies Story;
+
+export const Loading = {
+  parameters: {
+    msw: {
+      handlers: handlers.loading,
     },
   },
 } satisfies Story;
@@ -24,7 +57,7 @@ export const Default = {
 export const Empty = {
   parameters: {
     msw: {
-      handlers: [getListPetsMockHandler(() => [])],
+      handlers: handlers.empty,
     },
   },
 } satisfies Story;
@@ -32,14 +65,7 @@ export const Empty = {
 export const Error = {
   parameters: {
     msw: {
-      handlers: [
-        http.get(listPetsMockHandler.info.path, async () => {
-          return new HttpResponse(
-            JSON.stringify({ message: "Internal Server Error" }),
-            { status: 500, headers: { "Content-Type": "application/json" } },
-          );
-        }),
-      ],
+      handlers: handlers.error,
     },
   },
 } satisfies Story;
