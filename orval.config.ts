@@ -6,9 +6,8 @@ const config = defineConfig({
       target: "./openapi/petstore.yaml",
     },
     output: {
-      mode: "single",
-      target: "./src/__generated__/petstore.ts",
-      schemas: "./src/__generated__",
+      mode: "tags-split",
+      target: "./src/__generated__",
       biome: true,
       client: "react-query",
       httpClient: "fetch",

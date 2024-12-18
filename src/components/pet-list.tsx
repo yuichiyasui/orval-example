@@ -1,6 +1,6 @@
 "use client";
 
-import { useListPets } from "@/__generated__/petstore";
+import { useListPets } from "@/__generated__/pets/pets";
 
 export const PetList = () => {
   const { data, isLoading, isError } = useListPets({
