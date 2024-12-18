@@ -7,8 +7,6 @@ export const PetList = () => {
     limit: 10,
   });
 
-  console.log(data);
-
   return (
     <table className="border-collapse border border-gray-300 text-sm">
       <caption className="font-bold text-left text-lg mb-2">動物リスト</caption>
