@@ -13,6 +13,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "biome check --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -44,8 +45,6 @@
     "typescript": "5.7.2"
   },
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   }
 }
