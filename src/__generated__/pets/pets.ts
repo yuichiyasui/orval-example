@@ -18,7 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { customFetch } from "../../custom-fetch";
+import { customFetch } from "../../libs/custom-fetch";
 import type { Error, ListPetsParams, Pet, Pets } from "../petstore.schemas";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];

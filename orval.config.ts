@@ -20,7 +20,7 @@ const config = defineConfig({
       },
       override: {
         mutator: {
-          path: "./src/custom-fetch.ts",
+          path: "./src/libs/custom-fetch.ts",
           name: "customFetch",
         },
       },
