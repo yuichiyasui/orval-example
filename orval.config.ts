@@ -12,6 +12,11 @@ const config = defineConfig({
       client: "react-query",
       httpClient: "fetch",
       clean: true,
+      mock: {
+        type: "msw",
+        delay: 250,
+        baseUrl: "http://localhost:8080",
+      },
       override: {
         mutator: {
           path: "./src/custom-fetch.ts",

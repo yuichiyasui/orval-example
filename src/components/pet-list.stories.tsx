@@ -1,3 +1,4 @@
+import { getListPetsMockHandler } from "@/__generated__/pets/pets.msw";
 import { PetList } from "./pet-list";
 import { Meta, StoryObj } from "@storybook/react";
 
@@ -9,4 +10,10 @@ export default meta;
 
 type Story = StoryObj<typeof PetList>;
 
-export const Default = {} satisfies Story;
+export const Default = {
+  parameters: {
+    msw: {
+      handlers: [getListPetsMockHandler()],
+    },
+  },
+} satisfies Story;

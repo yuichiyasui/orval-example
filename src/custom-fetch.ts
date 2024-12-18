@@ -15,25 +15,17 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 // NOTE: Update just base url
 const getUrl = (contextUrl: string): string => {
-  const url = new URL(contextUrl);
-  const pathname = url.pathname;
-  const search = url.search;
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? "productionBaseUrl"
-      : "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+  const url = new URL(`${baseUrl}${contextUrl}`);
 
-  const requestUrl = new URL(`${baseUrl}${pathname}${search}`);
-
-  return requestUrl.toString();
+  return url.toString();
 };
 
 // NOTE: Add headers
 const getHeaders = (headers?: HeadersInit): HeadersInit => {
   return {
     ...headers,
-    Authorization: "token",
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
   };
 };
 
