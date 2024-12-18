@@ -1,4 +1,6 @@
+import React from "react";
 import type { Preview } from "@storybook/react";
+import { ReactQueryProvider } from "../src/libs/react-query";
 
 const preview: Preview = {
   parameters: {
@@ -9,6 +11,13 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <ReactQueryProvider>
+        <Story />
+      </ReactQueryProvider>
+    ),
+  ],
 };
 
 export default preview;
