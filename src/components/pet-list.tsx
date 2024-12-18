@@ -8,22 +8,36 @@ export const PetList = () => {
   });
 
   if (isError) {
-    return <p>Error loading pets.</p>;
+    return <p className="text-red-700">読み込みに失敗しました</p>;
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p className="text-slate-700">読み込み中...</p>;
   }
 
   if (typeof data === "undefined" || data.data.length === 0) {
-    return <p>No data.</p>;
+    return <p>見つかりませんでした</p>;
   }
 
   return (
-    <ul>
-      {data.data.map((pet) => (
-        <li key={pet.id}>{pet.name}</li>
-      ))}
-    </ul>
+    <table className="table-auto">
+      <caption className="font-bold">動物リスト</caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>名前</th>
+          <th>ジャンル</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.data.map((d) => (
+          <tr key={d.id}>
+            <td>{d.id}</td>
+            <td>{d.name}</td>
+            <td>{d.tag}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };

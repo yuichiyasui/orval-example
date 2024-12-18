@@ -31,7 +31,7 @@ export const getListPetsMockHandler = (
       ) => Promise<Pets> | Pets),
 ) => {
   return http.get("http://localhost:8080/pets", async (info) => {
-    await delay(250);
+    await delay(0);
 
     return new HttpResponse(
       JSON.stringify(
@@ -54,7 +54,7 @@ export const getCreatePetsMockHandler = (
       ) => Promise<void> | void),
 ) => {
   return http.post("http://localhost:8080/pets", async (info) => {
-    await delay(250);
+    await delay(0);
     if (typeof overrideResponse === "function") {
       await overrideResponse(info);
     }
@@ -70,7 +70,7 @@ export const getShowPetByIdMockHandler = (
       ) => Promise<Pet> | Pet),
 ) => {
   return http.get("http://localhost:8080/pets/:petId", async (info) => {
-    await delay(250);
+    await delay(0);
 
     return new HttpResponse(
       JSON.stringify(

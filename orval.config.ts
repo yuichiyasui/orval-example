@@ -14,7 +14,7 @@ const config = defineConfig({
       clean: true,
       mock: {
         type: "msw",
-        delay: 250,
+        delay: 0,
         baseUrl: "http://localhost:8080",
         useExamples: true,
       },
