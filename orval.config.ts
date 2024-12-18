@@ -16,6 +16,7 @@ const config = defineConfig({
         type: "msw",
         delay: 250,
         baseUrl: "http://localhost:8080",
+        useExamples: true,
       },
       override: {
         mutator: {

@@ -8,15 +8,11 @@ import { faker } from "@faker-js/faker";
 import { http, HttpResponse, delay } from "msw";
 import type { Pet, Pets } from "../petstore.schemas";
 
-export const getListPetsResponseMock = (): Pets =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    id: faker.number.int({ min: undefined, max: undefined }),
-    name: faker.string.alpha(20),
-    tag: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-  }));
+export const getListPetsResponseMock = (): Pets => [
+  { id: 0, name: "ポチ", tag: "犬" },
+  { id: 1, name: "タマ", tag: "猫" },
+  { id: 2, name: "ペリー", tag: "鳥" },
+];
 
 export const getShowPetByIdResponseMock = (
   overrideResponse: Partial<Pet> = {},

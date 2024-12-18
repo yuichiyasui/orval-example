@@ -34,6 +34,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pets'
+              example:
+                - id: 0
+                  name: ポチ
+                  tag: 犬
+                - id: 1
+                  name: タマ
+                  tag: 猫
+                - id: 2
+                  name: ペリー
+                  tag: 鳥
         default:
           description: unexpected error
           content:
@@ -97,10 +107,13 @@ components:
         id:
           type: integer
           format: int64
+          example: 1
         name:
           type: string
+          example: ポチ
         tag:
           type: string
+          example: 犬
     Pets:
       type: array
       maxItems: 100
@@ -115,5 +128,7 @@ components:
         code:
           type: integer
           format: int32
+          example: 400
         message:
           type: string
+          example: 無効な入力です
