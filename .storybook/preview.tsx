@@ -2,7 +2,7 @@ import React from "react";
 import type { Preview } from "@storybook/react";
 import { ReactQueryProvider } from "../src/libs/react-query";
 import { initialize, mswLoader } from "msw-storybook-addon";
-import "../src/app/globals.css";
+import "../src/styles/globals.css";
 
 initialize();
 
