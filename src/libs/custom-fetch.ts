@@ -13,7 +13,6 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
   return c.text() as Promise<T>;
 };
 
-// NOTE: Update just base url
 const getUrl = (contextUrl: string): string => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
   const url = new URL(`${baseUrl}${contextUrl}`);
