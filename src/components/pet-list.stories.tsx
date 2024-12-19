@@ -28,7 +28,7 @@ const handlers = {
   empty: [getListPetsMockHandler(() => [])],
   error: [
     http.get(getListPetsMockHandler().info.path, async () => {
-      await delay(1000);
+      await delay(2000);
 
       return new HttpResponse(
         JSON.stringify({ message: "Internal Server Error" }),
