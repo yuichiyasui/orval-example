@@ -5,7 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import { faker } from "@faker-js/faker";
-import { http, HttpResponse, delay } from "msw";
+import { http, HttpResponse } from "msw";
 import type { Error, Pet, Pets } from "../petstore.schemas";
 
 export const getListPetsResponseMock = (): Pets => [
@@ -70,8 +70,6 @@ export const getListPetsMockHandler = (
       ) => Promise<Pets> | Pets),
 ) => {
   return http.get("http://localhost:8080/pets", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -93,8 +91,6 @@ export const getListPetsMockHandler200 = (
       ) => Promise<Pets> | Pets),
 ) => {
   return http.get("http://localhost:8080/pets", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -116,8 +112,6 @@ export const getListPetsMockHandler500 = (
       ) => Promise<Error> | Error),
 ) => {
   return http.get("http://localhost:8080/pets", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -139,7 +133,6 @@ export const getCreatePetsMockHandler = (
       ) => Promise<void> | void),
 ) => {
   return http.post("http://localhost:8080/pets", async (info) => {
-    await delay(0);
     if (typeof overrideResponse === "function") {
       await overrideResponse(info);
     }
@@ -155,7 +148,6 @@ export const getCreatePetsMockHandler201 = (
       ) => Promise<void> | void),
 ) => {
   return http.post("http://localhost:8080/pets", async (info) => {
-    await delay(0);
     if (typeof overrideResponse === "function") {
       await overrideResponse(info);
     }
@@ -171,8 +163,6 @@ export const getCreatePetsMockHandlerDefault = (
       ) => Promise<Error> | Error),
 ) => {
   return http.post("http://localhost:8080/pets", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -194,8 +184,6 @@ export const getShowPetByIdMockHandler = (
       ) => Promise<Pet> | Pet),
 ) => {
   return http.get("http://localhost:8080/pets/:petId", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -217,8 +205,6 @@ export const getShowPetByIdMockHandler200 = (
       ) => Promise<Pet> | Pet),
 ) => {
   return http.get("http://localhost:8080/pets/:petId", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
@@ -240,8 +226,6 @@ export const getShowPetByIdMockHandler500 = (
       ) => Promise<Error> | Error),
 ) => {
   return http.get("http://localhost:8080/pets/:petId", async (info) => {
-    await delay(0);
-
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
