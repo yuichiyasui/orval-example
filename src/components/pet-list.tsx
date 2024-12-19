@@ -32,8 +32,8 @@ export const PetList = () => {
           if (isError) {
             return (
               <tr>
-                <td colSpan={3} className="p-2 text-center text-red-700">
-                  エラーが発生しました
+                <td colSpan={3} className="p-2 text-center text-red-500">
+                  読み込みに失敗しました
                 </td>
               </tr>
             );

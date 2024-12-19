@@ -44,7 +44,7 @@ paths:
                 - id: 2
                   name: ペリー
                   tag: 鳥
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:
@@ -90,7 +90,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
-        default:
+        '500':
           description: unexpected error
           content:
             application/json:

@@ -1,9 +1,11 @@
-import { getListPetsMockHandler } from "@/__generated__/pets/pets.msw";
+import {
+  getListPetsMockHandler,
+  getListPetsMockHandler500,
+} from "@/__generated__/pets/pets.msw";
 import { renderWithProviders } from "@/utils/testing";
 import { setupServer } from "msw/node";
 import { PetList } from "./pet-list";
 import { screen, waitFor, within } from "@testing-library/react";
-import { http, HttpResponse } from "msw";
 
 const listPetsInterceptor = vi.fn();
 
@@ -85,15 +87,11 @@ test("動物リストが見つからない場合にメッセージが表示さ�
 });
 
 test("エラー時にエラーメッセージが表示される", async () => {
-  const hander = getListPetsMockHandler();
   server.use(
-    http.get(hander.info.path, async ({ request }) => {
+    getListPetsMockHandler500(({ request }) => {
       const url = new URL(request.url);
       listPetsInterceptor(url.searchParams.toString());
-      return new HttpResponse(
-        JSON.stringify({ message: "Error loading pets." }),
-        { status: 500, headers: { "Content-Type": "application/json" } },
-      );
+      return { code: 500, message: "Internal Server Error" };
     }),
   );
 

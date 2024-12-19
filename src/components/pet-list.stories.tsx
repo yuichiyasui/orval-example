@@ -1,10 +1,11 @@
 import {
   getListPetsMockHandler,
+  getListPetsMockHandler500,
   getListPetsResponseMock,
 } from "@/__generated__/pets/pets.msw";
 import { PetList } from "./pet-list";
 import { Meta, StoryObj } from "@storybook/react";
-import { delay, http, HttpResponse } from "msw";
+import { delay } from "msw";
 
 const meta = {
   component: PetList,
@@ -17,23 +18,16 @@ type Story = StoryObj<typeof PetList>;
 const handlers = {
   success: [getListPetsMockHandler()],
   loading: [
-    http.get(getListPetsMockHandler().info.path, async () => {
-      await delay(3000);
-      return new HttpResponse(JSON.stringify(getListPetsResponseMock()), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+    getListPetsMockHandler(async () => {
+      await delay(2000);
+      return getListPetsResponseMock();
     }),
   ],
   empty: [getListPetsMockHandler(() => [])],
   error: [
-    http.get(getListPetsMockHandler().info.path, async () => {
+    getListPetsMockHandler500(async () => {
       await delay(2000);
-
-      return new HttpResponse(
-        JSON.stringify({ message: "Internal Server Error" }),
-        { status: 500, headers: { "Content-Type": "application/json" } },
-      );
+      return { code: 500, message: "Internal Server Error" };
     }),
   ],
 };

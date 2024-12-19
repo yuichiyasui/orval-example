@@ -17,6 +17,7 @@ const config = defineConfig({
         delay: 0,
         baseUrl: "http://localhost:8080",
         useExamples: true,
+        generateEachHttpStatus: true,
       },
       override: {
         mutator: {

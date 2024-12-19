@@ -6,7 +6,7 @@
  */
 import { faker } from "@faker-js/faker";
 import { http, HttpResponse, delay } from "msw";
-import type { Pet, Pets } from "../petstore.schemas";
+import type { Error, Pet, Pets } from "../petstore.schemas";
 
 export const getListPetsResponseMock = (): Pets => [
   { id: 0, name: "ポチ", tag: "犬" },
@@ -14,12 +14,51 @@ export const getListPetsResponseMock = (): Pets => [
   { id: 2, name: "ペリー", tag: "鳥" },
 ];
 
+export const getListPetsResponseMock200 = (): Pets => [
+  { id: 0, name: "ポチ", tag: "犬" },
+  { id: 1, name: "タマ", tag: "猫" },
+  { id: 2, name: "ペリー", tag: "鳥" },
+];
+
+export const getListPetsResponseMock500 = (
+  overrideResponse: Partial<Error> = {},
+): Error => ({
+  code: faker.number.int({ min: undefined, max: undefined }),
+  message: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
+export const getCreatePetsResponseMockDefault = (
+  overrideResponse: Partial<Error> = {},
+): Error => ({
+  code: faker.number.int({ min: undefined, max: undefined }),
+  message: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
 export const getShowPetByIdResponseMock = (
   overrideResponse: Partial<Pet> = {},
 ): Pet => ({
   id: faker.number.int({ min: undefined, max: undefined }),
   name: faker.string.alpha(20),
   tag: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+});
+
+export const getShowPetByIdResponseMock200 = (
+  overrideResponse: Partial<Pet> = {},
+): Pet => ({
+  id: faker.number.int({ min: undefined, max: undefined }),
+  name: faker.string.alpha(20),
+  tag: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+  ...overrideResponse,
+});
+
+export const getShowPetByIdResponseMock500 = (
+  overrideResponse: Partial<Error> = {},
+): Error => ({
+  code: faker.number.int({ min: undefined, max: undefined }),
+  message: faker.string.alpha(20),
   ...overrideResponse,
 });
 
@@ -46,6 +85,52 @@ export const getListPetsMockHandler = (
   });
 };
 
+export const getListPetsMockHandler200 = (
+  overrideResponse?:
+    | Pets
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<Pets> | Pets),
+) => {
+  return http.get("http://localhost:8080/pets", async (info) => {
+    await delay(0);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListPetsResponseMock200(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getListPetsMockHandler500 = (
+  overrideResponse?:
+    | Error
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<Error> | Error),
+) => {
+  return http.get("http://localhost:8080/pets", async (info) => {
+    await delay(0);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListPetsResponseMock500(),
+      ),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
 export const getCreatePetsMockHandler = (
   overrideResponse?:
     | void
@@ -59,6 +144,45 @@ export const getCreatePetsMockHandler = (
       await overrideResponse(info);
     }
     return new HttpResponse(null, { status: 201 });
+  });
+};
+
+export const getCreatePetsMockHandler201 = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<void> | void),
+) => {
+  return http.post("http://localhost:8080/pets", async (info) => {
+    await delay(0);
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info);
+    }
+    return new HttpResponse(null, { status: 201 });
+  });
+};
+
+export const getCreatePetsMockHandlerDefault = (
+  overrideResponse?:
+    | Error
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<Error> | Error),
+) => {
+  return http.post("http://localhost:8080/pets", async (info) => {
+    await delay(0);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCreatePetsResponseMockDefault(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
   });
 };
 
@@ -81,6 +205,52 @@ export const getShowPetByIdMockHandler = (
           : getShowPetByIdResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getShowPetByIdMockHandler200 = (
+  overrideResponse?:
+    | Pet
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<Pet> | Pet),
+) => {
+  return http.get("http://localhost:8080/pets/:petId", async (info) => {
+    await delay(0);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getShowPetByIdResponseMock200(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getShowPetByIdMockHandler500 = (
+  overrideResponse?:
+    | Error
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<Error> | Error),
+) => {
+  return http.get("http://localhost:8080/pets/:petId", async (info) => {
+    await delay(0);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getShowPetByIdResponseMock500(),
+      ),
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   });
 };
